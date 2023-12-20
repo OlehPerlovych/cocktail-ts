@@ -1,20 +1,23 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {H1} from "../../../../general/style/components/buttons";
 import CocktailShort from "../../../../general/component/CocktailShort";
+import CocktailShortType from "../../../domain/model/CocktailShort";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {store} from "../../../../general/redux/store";
 import {getByCategoryAction} from "../../redux/asyncActions";
 import {Alert} from "react-bootstrap";
+import {AppDispatch} from "../../../../general/redux/store";
+import {ReducerType} from "../../redux/sliceReducer";
+import {CategoryPresentation} from "../../../domain/use_cases/convertCategoryArray";
 
 const CategoryPage = () => {
-    const categories = useSelector(store => store.categories);
-    const categoryCocktails = useSelector(store => store.categoryCocktails);
-    const dispatch = useDispatch();
+    const categories = useSelector<ReducerType, CategoryPresentation[]>(store => store.categories);
+    const categoryCocktails = useSelector<ReducerType, CocktailShortType[]>(store => store.categoryCocktails);
+    const dispatch = useDispatch<AppDispatch>();
 
     const navigate = useNavigate();
 
-    const error = useSelector(store => store.errorMessage);
+    const error = useSelector<ReducerType, string | undefined>(store => store.errorMessage);
     if (error) {
         return <Alert>{error}</Alert>
     }
